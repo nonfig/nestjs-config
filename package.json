@@ -1,0 +1,76 @@
+{
+  "name": "@nonfig/nestjs-config",
+  "version": "0.0.6",
+  "description": "NestJS wrapper for Nonfig",
+  "license": "MIT",
+  "keywords": [
+    "nestjs",
+    "nonfig",
+    "config"
+  ],
+  "author": {
+    "name": "nonfig",
+    "email": "hello@nonfig.com"
+  },
+  "scripts": {
+    "build": "npm run build:lib && ./tools/package.sh",
+    "build:lib": "npx tsc -p tsconfig.json",
+    "build:docs": "npx compodoc -p tsconfig.json",
+    "lint": "npm run lint:lib",
+    "lint:lib": "prettier --write './src/**'",
+    "test": "jest",
+    "semantic-release": "semantic-release",
+    "serve:docs": "npx compodoc -p tsconfig.json --serve",
+    "postversion": "cp package.json ../package.json && cp package-lock.json ../package-lock.json",
+    "prerelease": "npm run lint && npm run build",
+    "release": "cd dist && npm publish --dry-run",
+    "prepublishOnly": "npm version patch"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run lint",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "@nestjs/common": "7.4.4",
+    "@nestjs/core": "7.4.4",
+    "@nonfig/node-sdk": "0.0.33",
+    "lodash": "4.17.20",
+    "reflect-metadata": "0.1.13"
+  },
+  "devDependencies": {
+    "@angular-devkit/core": "9.0.2",
+    "@angular-devkit/schematics": "9.0.2",
+    "@commitlint/cli": "8.3.5",
+    "@commitlint/config-conventional": "8.3.4",
+    "@compodoc/compodoc": "1.1.11",
+    "@nestjs/schematics": "7.1.2",
+    "@semantic-release/changelog": "5.0.0",
+    "@semantic-release/git": "9.0.0",
+    "@types/jest": "25.1.2",
+    "@types/lodash": "^4.14.161",
+    "@types/node": "13.7.1",
+    "@typescript-eslint/eslint-plugin": "2.19.2",
+    "@typescript-eslint/parser": "2.19.2",
+    "commitizen": "4.0.3",
+    "eslint": "6.8.0",
+    "husky": "4.2.5",
+    "jest": "25.1.0",
+    "prettier": "2.0.5",
+    "rimraf": "^3.0.2",
+    "semantic-release": "17.0.4",
+    "ts-jest": "25.2.0",
+    "typescript": "3.7.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nonfig/nestjs-config.git"
+  }
+}
