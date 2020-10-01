@@ -1,6 +1,6 @@
 {
   "name": "@nonfig/nestjs-config",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "NestJS wrapper for Nonfig",
   "license": "MIT",
   "keywords": [
@@ -23,7 +23,7 @@
     "serve:docs": "npx compodoc -p tsconfig.json --serve",
     "postversion": "cp package.json ../package.json && cp package-lock.json ../package-lock.json",
     "prerelease": "npm run lint && npm run build",
-    "release": "cd dist && npm publish --dry-run",
+    "release": "cd dist && npm publish --access=public",
     "prepublishOnly": "npm version patch"
   },
   "husky": {
