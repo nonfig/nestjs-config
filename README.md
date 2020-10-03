@@ -7,18 +7,20 @@
   NestJS Module for <a href="https://nonfig.com" target="_blank">Nonfig</a> services. Nonfig combines Configurations and Features. So you change features, and release swiftly, and measure to digital impact.
 </p>
 <p align="center">
+
+<a href="https://www.npmjs.com/~nonfig" target="_blank"><img src="https://circleci.com/gh/nonfig/nestjs-config/tree/master.svg?style=shield" alt="Circle CI" /></a>
 <a href="https://www.npmjs.com/~nonfig" target="_blank"><img src="https://img.shields.io/npm/v/@nonfig/nestjs-config.svg" alt="NPM Version" /></a>
 <a href="https://www.npmjs.com/~nonfig" target="_blank"><img src="https://img.shields.io/npm/l/@nonfig/nestjs-config.svg" alt="Package License" /></a>
 <a href="https://www.npmjs.com/~nonfig" target="_blank"><img src="https://img.shields.io/npm/dm/@nonfig/nestjs-config.svg" alt="NPM Downloads" /></a>
 <a href="https://twitter.com/nonfig" target="_blank"><img src="https://img.shields.io/twitter/follow/nonfig.svg?style=social&label=Follow"></a>
+
 </p>
-# :notebook: Summary
+# Summary
 
 * [Installation](#installation)
 * [Setup](#setup)
 * [Usage](#usage)
   * [NonfigService](#librarynameservice)
-* [Schematics](#schematics)
 
 # :package: Installation
 
