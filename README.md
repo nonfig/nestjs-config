@@ -8,13 +8,13 @@
 </p>
 <p align="center">
 
-<a href="https://www.npmjs.com/~nonfig" target="_blank"><img src="https://circleci.com/gh/nonfig/nestjs-config/tree/master.svg?style=shield" alt="Circle CI" /></a>
+[![CircleCI](https://circleci.com/gh/nonfig/nestjs-config.svg?style=shield&circle-token=a843b1bfda524abc2befedd3bd8a5b97b5a3c1ad)](https://circleci.com/gh/nonfig/nestjs-config)
 <a href="https://www.npmjs.com/~nonfig" target="_blank"><img src="https://img.shields.io/npm/v/@nonfig/nestjs-config.svg" alt="NPM Version" /></a>
 <a href="https://www.npmjs.com/~nonfig" target="_blank"><img src="https://img.shields.io/npm/l/@nonfig/nestjs-config.svg" alt="Package License" /></a>
 <a href="https://www.npmjs.com/~nonfig" target="_blank"><img src="https://img.shields.io/npm/dm/@nonfig/nestjs-config.svg" alt="NPM Downloads" /></a>
 <a href="https://twitter.com/nonfig" target="_blank"><img src="https://img.shields.io/twitter/follow/nonfig.svg?style=social&label=Follow"></a>
-
 </p>
+
 # Summary
 
 * [Installation](#installation)
