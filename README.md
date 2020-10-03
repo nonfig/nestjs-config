@@ -22,14 +22,19 @@
 
 # :package: Installation
 
-* :cat2: Using Nest CLI:
+* Using Nest CLI:
 ```
 nest add @nonfig/nestjs-config
 ```
 
-* :package: Using Package Manager: 
+* Using Package Manager: 
 ```
 npm install --save @nonfig/nestjs-config
+```
+
+* Using Yarn
+```bash
+yarn add @nonfig/node-sdk
 ```
 
 # :wrench: Setup
@@ -38,11 +43,12 @@ Explain your library setup.
 
 ```typescript
 import { Module } from '@nestjs/common';
-import { NonfigModule, NonfigConfig } from '@nonfig/nestjs-config';
+import { NonfigModule, NonfigOptions } from '@nonfig/nestjs-config';
 
-const CONFIG: NonfigConfig = {
+const CONFIG: NonfigOptions = {
   appId: '<Your Application ID>',
-  appSecret: '<Your Application Secret>'
+  appSecret: '<Your Application Secret>',
+  cacheTtl: 60000  
 }
 
 @Module({
@@ -58,16 +64,116 @@ export class AppModule {}
 
 ## :control_knobs: Config
 
-| Name | Type | Default | Description | Description |
+| Name | Type | Default | Description | Required |
 | --- | --- | --- | --- | --- |
-| appId | __string__ | `<DEFAULT>` | Nonfig consumer's app ID | Required |
-| appSecret | __string__ | `<DEFAULT>` | Nonfig consumer's app Secret | Required |
-| cacheTtl | __number__ | `60000` | Cache time to live in milliseconds | Optional |
+| appId | __string__ | `<DEFAULT>` | Nonfig consumer's app ID | Yes |
+| appSecret | __string__ | `<DEFAULT>` | Nonfig consumer's app Secret | Yes |
+| cacheTtl | __number__ | `60000` | Cache time to live in milliseconds | No |
 
-# :books: Usage
+# Usage
 
-Inject NonfigService in any of your controller or service
+## Retrieve single configuration
 
-## NonfigService
+```ts
+import { NonfigService } from '@nonfig/nestjs-config';
 
-Nonfig service fetches configurations using multiple methods.
+
+export class MyRepoService {
+    constructor(private nonfig: NonfigService) {}
+
+    async getPricing() {
+        const name = '/path/to/pricing/config'
+        return this.nonfig.findByName(name)
+    }
+
+}
+
+export class MyFacadeService {
+
+    constructor(private repo: MyRepoService) {}
+    
+    async applyPricing() {
+        const config = await this.repo.getPricing()
+        
+        // write your code here to use pricingConfig
+    }   
+
+}
+```
+
+## Retrieve multiple configurations
+Example: Fetching the list of supported languages of application
+
+```ts
+
+// Application Controller
+export class AppController {
+    constructor(private service: AppService) {}
+
+    @Get()
+    async getLanguageList() {
+        return this.service.getLanguageList()
+    }   
+}
+
+
+import { NonfigService } from '@nonfig/nestjs-config';
+
+//Application Service
+export class AppService {
+
+    constructor(private nonfig: NonfigService) {}
+
+    async getLanguageList() {
+        return this.nonfig.findByPath('/languages/list')
+    }   
+
+}
+```
+
+## Retrieve configuration using ID
+```ts
+
+import { NonfigService } from '@nonfig/nestjs-config';
+
+//Application Service
+export class AppService {
+
+    constructor(private nonfig: NonfigService) {}
+
+    async getSpecificTranslation(id: string) {
+        return this.nonfig.findById(id)
+    }   
+
+}
+```
+
+## Retrieve multiple configurations using Labels
+Example: Fetching the language of application using specific labels
+```ts
+
+// Application Controller
+export class AppController {
+    constructor(private service: AppService) {}
+
+    @Get('language')
+    async language(@Param('label') label: string) {
+        return this.service.getLanguageByLabel(label.split(','))
+    }   
+}
+
+
+import { NonfigService } from '@nonfig/nestjs-config';
+
+//Application Service
+export class AppService {
+
+    constructor(private nonfig: NonfigService) {}
+
+    async getLanguageByLabel(label: string[]): Promise<Languages[]> {
+        return this.nonfig.findByLabels<Language>(label)
+    }   
+
+}
+```
+

@@ -1,10 +1,8 @@
 import {Injectable, Inject, NotFoundException} from '@nestjs/common';
 import {MODULE_CONFIG, NonfigOptions} from './config';
-import {Configuration, nonfig, Nonfig} from '@nonfig/node-sdk';
-import {get, isEmpty} from 'lodash';
-/**
- * Useful service
- */
+import {nonfig, Nonfig} from '@nonfig/node-sdk';
+import {get} from 'lodash';
+
 @Injectable()
 export class NonfigService {
     private client: Nonfig;
@@ -17,65 +15,63 @@ export class NonfigService {
         this.client = nonfig(config);
     }
 
-    public async findByName(name: string): Promise<Configuration> {
+    public async findByName<T>(name: string): Promise<T | any> {
         let requestedName = name;
 
         if (!requestedName.startsWith('/')) {
             requestedName = `/${requestedName}`;
         }
 
-        const response = await this.client.findByName(requestedName);
-        const configuration = get(response, '0', null);
+        try {
+            const response = await this.client.findByName(requestedName);
 
-        if (isEmpty(configuration)) {
+            return get(response, '0.data', null);
+        } catch (e) {
             throw new NotFoundException(
                 'Configuration with the given name is not found'
             );
         }
-
-        return configuration;
     }
 
-    public async findByPath(path: string): Promise<Configuration[]> {
+    public async findByPath<T>(path: string): Promise<T[] | any[]> {
         let requestedPath = path;
 
         if (!requestedPath.startsWith('/')) {
             requestedPath = `/${requestedPath}`;
         }
 
-        const configurations = await this.client.findByPath(requestedPath);
+        try {
+            const configurations = await this.client.findByPath(requestedPath);
 
-        if (isEmpty(configurations)) {
+            return configurations.map(({data}) => data);
+        } catch (e) {
             throw new NotFoundException(
                 'Configurations with the given path are not found'
             );
         }
-
-        return configurations;
     }
 
-    public async findById(id: string): Promise<Configuration[]> {
-        const response = await this.client.findById(id);
-        const configuration = get(response, '0', null);
+    public async findById<T>(id: string): Promise<T | any> {
+        try {
+            const response = await this.client.findById(id);
 
-        if (isEmpty(configuration)) {
+            return get(response, '0.data', null);
+        } catch (e) {
             throw new NotFoundException(
                 'Configuration with the given id is not found'
             );
         }
-
-        return configuration;
     }
 
-    public async findByLabels(labels: string[]): Promise<Configuration[]> {
-        const configurations = await this.client.findByLabels(labels);
+    public async findByLabels<T>(labels: string[]): Promise<T[] | any[]> {
+        try {
+            const configurations = await this.client.findByLabels(labels);
 
-        if (isEmpty(configurations)) {
+            return configurations.map(({data}) => data);
+        } catch (e) {
             throw new NotFoundException(
                 'Configurations with the given labels are not found'
             );
         }
-
-        return configurations;
     }
 }

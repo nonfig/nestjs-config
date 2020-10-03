@@ -2,12 +2,22 @@
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
+  setupFiles: [
+    'dotenv/config'
+  ],
   collectCoverage: true,
-  moduleFileExtensions: ['ts', 'js'],
-  collectCoverageFrom: [
-    "schematics/**",
-    "src/**",
-  ]
+  verbose: true,
+  moduleFileExtensions: [
+    "ts",
+    "tsx",
+    "js",
+    "json"
+  ],
+  testEnvironment: "node",
+  transform: {
+    "^.+\\.tsx?$": "ts-jest"
+  },
+  testRegex: "/e2e/tests/.*\\.(e2e-test|e2e-spec).(ts|tsx|js)$",
+  collectCoverageFrom : ["src/**/*.{js,jsx,tsx,ts}", "!**/node_modules/**", "!**/dist/**"],
+  // coverageReporters: ["json", "lcov"]
 };
