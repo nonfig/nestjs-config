@@ -36,7 +36,7 @@ npm install --save @nonfig/nestjs-config
 
 * Using Yarn
 ```bash
-yarn add @nonfig/node-sdk
+yarn add @nonfig/nestjs-config
 ```
 
 # :wrench: Setup
