@@ -1,6 +1,6 @@
 import {Injectable, Inject, NotFoundException} from '@nestjs/common';
 import {MODULE_CONFIG, NonfigOptions} from './config';
-import {nonfig, Nonfig} from '@nonfig/node-sdk';
+import {IRequestOption, nonfig, Nonfig} from '@nonfig/node-sdk';
 import {get} from 'lodash';
 
 @Injectable()
@@ -15,7 +15,10 @@ export class NonfigService {
         this.client = nonfig(config);
     }
 
-    public async findByName<T>(name: string): Promise<T | any> {
+    public async findByName<T>(
+        name: string,
+        options?: IRequestOption
+    ): Promise<T | any> {
         let requestedName = name;
 
         if (!requestedName.startsWith('/')) {
@@ -23,7 +26,10 @@ export class NonfigService {
         }
 
         try {
-            const response = await this.client.findByName(requestedName);
+            const response = await this.client.findByName(
+                requestedName,
+                options
+            );
 
             return get(response, '0.data', null);
         } catch (e) {
@@ -33,7 +39,10 @@ export class NonfigService {
         }
     }
 
-    public async findByPath<T>(path: string): Promise<T[] | any[]> {
+    public async findByPath<T>(
+        path: string,
+        options?: IRequestOption
+    ): Promise<T[] | any[]> {
         let requestedPath = path;
 
         if (!requestedPath.startsWith('/')) {
@@ -41,7 +50,10 @@ export class NonfigService {
         }
 
         try {
-            const configurations = await this.client.findByPath(requestedPath);
+            const configurations = await this.client.findByPath(
+                requestedPath,
+                options
+            );
 
             return configurations.map(({data}) => data);
         } catch (e) {
@@ -51,9 +63,12 @@ export class NonfigService {
         }
     }
 
-    public async findById<T>(id: string): Promise<T | any> {
+    public async findById<T>(
+        id: string,
+        options?: IRequestOption
+    ): Promise<T | any> {
         try {
-            const response = await this.client.findById(id);
+            const response = await this.client.findById(id, options);
 
             return get(response, '0.data', null);
         } catch (e) {
@@ -63,9 +78,15 @@ export class NonfigService {
         }
     }
 
-    public async findByLabels<T>(labels: string[]): Promise<T[] | any[]> {
+    public async findByLabels<T>(
+        labels: string[],
+        options?: IRequestOption
+    ): Promise<T[] | any[]> {
         try {
-            const configurations = await this.client.findByLabels(labels);
+            const configurations = await this.client.findByLabels(
+                labels,
+                options
+            );
 
             return configurations.map(({data}) => data);
         } catch (e) {
